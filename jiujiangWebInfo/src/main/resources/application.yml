@@ -1,0 +1,22 @@
+server:
+  port: 8030
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+mybatis:
+  mapper-locations: mapper/*Mapper.xml
+  type-aliases-package: com.jiujiangwebinfo.demo1.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

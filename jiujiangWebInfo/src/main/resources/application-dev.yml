@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jiujiang1?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
+    username: root
+    password: root
