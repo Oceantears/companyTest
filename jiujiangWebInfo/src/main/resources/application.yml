@@ -1,5 +1,6 @@
 server:
-  port: 8030
+  port: 9010
+#  address: http://192.168.0.20
 spring:
   profiles:
     active: dev

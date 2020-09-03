@@ -3,7 +3,9 @@ package com.jiujiangwebinfo.demo1.util;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.net.URLCodec;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -11,12 +13,19 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URLDecoder;
 
 
 public class HttpRequestUtils {
     private static Logger logger = LoggerFactory.getLogger(HttpRequestUtils.class);     //日志记录
 
+    /**
+     * 发送post请求
+     * @param url
+     * @param jsonParam
+     * @return
+     */
     public static JSONObject httpPost(String url, JSONObject jsonParam) {
         return httpPost(url, jsonParam, false);
     }
@@ -57,6 +66,36 @@ public class HttpRequestUtils {
             logger.error("post请求失败:" + url,e);
         }
 
+        return jsonResult;
+    }
+
+    /**
+     * get请求
+     * @param url
+     * @return
+     */
+    public static JSONObject httpGet(String url){
+        //get请求返回结果
+        JSONObject jsonResult = null;
+        try {
+            HttpClient client = HttpClientBuilder.create().build();
+            //发送get请求
+            HttpGet request = new HttpGet(url);
+            HttpResponse response = client.execute(request);
+
+            /**请求发送成功，并得到响应**/
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                /**读取服务器返回过来的json字符串数据**/
+                String strResult = EntityUtils.toString(response.getEntity());
+                /**把json字符串转换成json对象**/
+                jsonResult = JSONObject.parseObject(strResult);
+                url = URLDecoder.decode(url, "UTF-8");
+            } else {
+                logger.error("get请求提交失败:" + url);
+            }
+        } catch (IOException e) {
+            logger.error("get请求提交失败:" + url, e);
+        }
         return jsonResult;
     }
 }
