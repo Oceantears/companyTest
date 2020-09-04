@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderListService implements IOrderListService {
+
     @Autowired
     private OrderListMapper orderListMapper;
 
@@ -16,5 +17,6 @@ public class OrderListService implements IOrderListService {
 
         System.out.println("==========添加了order===========" + order);
         //orderListMapper.insert(order);
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     }
 }

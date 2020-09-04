@@ -1,6 +1,5 @@
 server:
   port: 9010
-#  address: http://192.168.0.20
 spring:
   profiles:
     active: dev
@@ -10,14 +9,21 @@ spring:
       max-request-size: 10MB
 
 mybatis:
-  mapper-locations: mapper/*Mapper.xml
+  mapper-locations: mapper/*.xml
   type-aliases-package: com.jiujiangwebinfo.demo1.entity
   configuration:
     #开启驼峰命名
     map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
     helperDialect: mysql
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
+
+#logging:
+#  level:
+#    xatu.zsl: debug #不同目录下的日志可配置不同级别
+#    org.springfromework.web: info
+#    org.hibernate: error

@@ -1,5 +1,7 @@
 package com.jiujiangwebinfo.demo1.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Order {

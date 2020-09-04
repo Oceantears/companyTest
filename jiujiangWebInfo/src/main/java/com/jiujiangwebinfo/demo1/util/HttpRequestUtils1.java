@@ -1,9 +1,12 @@
 package com.jiujiangwebinfo.demo1.util;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.jiujiangwebinfo.demo1.entity.User;
+import com.jiujiangwebinfo.demo1.service.impl.UserService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import com.jiujiangwebinfo.demo1.entity.Order;
 import com.jiujiangwebinfo.demo1.service.impl.OrderListService;
+import net.sf.json.JsonConfig;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -12,12 +15,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 
 public class HttpRequestUtils1 {
@@ -35,6 +36,8 @@ public class HttpRequestUtils1 {
 
 
         OrderListService orderListService = new OrderListService();
+
+
         try {
             // 由客户端执行(发送)Get请求
             response = httpClient.execute(httpGet);
@@ -47,15 +50,26 @@ public class HttpRequestUtils1 {
                 //设置编码防止响应乱码
                 String responseStr = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
                 //System.out.println("响应内容为：" + responseStr);
-                JSONObject data = JSONObject.parseObject(responseStr);
-                //System.out.println(data.toString());
+                JSONObject data = JSONObject.fromObject(responseStr);
+                System.out.println(data.toString());
                 JSONArray jsonArray = data.getJSONObject("data").getJSONArray("records");
-                //List<Order> orders = new ArrayList<>();
                 Order order;
+
+                /**
+                 * 将order对象中的时间转化成“yyyy-MM-dd HH:mm:ss”格式
+                 */
+                JsonConfig jsonConfig = new JsonConfig();
+                jsonConfig.registerJsonValueProcessor(Date.class,new JsonValueProcessorImpl());
+
+
                 for (Object o : jsonArray) {
-                    order = JSONObject.parseObject(o.toString(),Order.class);
+                    System.out.println("============order============" + o);
+                    order = com.alibaba.fastjson.JSONObject.parseObject(o.toString(),Order.class);
+
+                    JSONObject jsonFromBean = JSONObject.fromObject(order,jsonConfig);
                     orderListService.insert(order);
-                    //orders.add(order);
+
+
                 }
             }
         } catch (ClientProtocolException e) {

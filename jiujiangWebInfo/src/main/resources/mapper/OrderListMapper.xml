@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jiujiangwebinfo.demo1.mapper.OrderListMapper">
     <insert id="insert" parameterType="Order">
-        INSERT INTO `order_list`(
+        INSERT `order_list`(
         ADDRESS ,
         ALLMANYI ,
         APPROACH ,
@@ -131,7 +131,6 @@
         #{order.SERVICE_TYPE},
         #{order.SOLVING_RESULT},
         #{order.SOLVING_TIME},
-
         #{order.STATUS},
         #{order.STREET_NAME},
         #{order.SYNCTIME},
